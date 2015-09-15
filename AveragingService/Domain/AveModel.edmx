@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DbAveragingTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccountActivities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="YearOf" Type="smallint" Nullable="false" />
+          <Property Name="RegDate" Type="bigint" Nullable="false" />
+          <Property Name="RegTime" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TransactionType" Type="smallint" Nullable="false" />
+          <Property Name="Numerator" Type="bigint" Nullable="false" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="AccountId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RegBranchId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IndexNo" Type="int" Nullable="false" />
+          <Property Name="GeneralNo" Type="int" Nullable="false" />
+          <Property Name="AccountNo" Type="bigint" Nullable="false" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="BranchId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DayIndexAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GeneralNo" Type="int" Nullable="false" />
+          <Property Name="IndexNo" Type="int" Nullable="false" />
+          <Property Name="RegDate" Type="bigint" Nullable="false" />
+          <Property Name="DayBalance" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DayDebtor" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DayDeposit" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DayActivityCount" Type="int" Nullable="false" />
+          <Property Name="DayOpenedCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="YearAccounts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="YearOf" Type="int" Nullable="false" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Debtor" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Creditor" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="AccountId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AccountActivities_Accounts">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+          <End Role="AccountActivities" Type="Self.AccountActivities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccountActivities">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_YearAccounts_Accounts">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+          <End Role="YearAccounts" Type="Self.YearAccounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="YearAccounts">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbAveragingTestModelStoreContainer">
+          <EntitySet Name="AccountActivities" EntityType="Self.AccountActivities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DayIndexAccount" EntityType="Self.DayIndexAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="YearAccounts" EntityType="Self.YearAccounts" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AccountActivities_Accounts" Association="Self.FK_AccountActivities_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="AccountActivities" EntitySet="AccountActivities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_YearAccounts_Accounts" Association="Self.FK_YearAccounts_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="YearAccounts" EntitySet="YearAccounts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbAveragingTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AccountActivity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="YearOf" Type="Int16" Nullable="false" />
+          <Property Name="RegDate" Type="Int64" Nullable="false" />
+          <Property Name="RegTime" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TransactionType" Type="Int16" Nullable="false" />
+          <Property Name="Numerator" Type="Int64" Nullable="false" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="AccountId" Type="Guid" Nullable="false" />
+          <Property Name="RegBranchId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_AccountActivities_Accounts" FromRole="AccountActivities" ToRole="Accounts" />
+        </EntityType>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="IndexNo" Type="Int32" Nullable="false" />
+          <Property Name="GeneralNo" Type="Int32" Nullable="false" />
+          <Property Name="AccountNo" Type="Int64" Nullable="false" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BranchId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AccountActivities" Relationship="Self.FK_AccountActivities_Accounts" FromRole="Accounts" ToRole="AccountActivities" />
+          <NavigationProperty Name="YearAccounts" Relationship="DbAveragingTestModel.FK_YearAccounts_Accounts" FromRole="Account" ToRole="YearAccount" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_AccountActivities_Accounts">
+          <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
+          <End Role="AccountActivities" Type="Self.AccountActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccountActivities">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbAveragingTestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AccountActivities" EntityType="Self.AccountActivity" />
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_AccountActivities_Accounts" Association="Self.FK_AccountActivities_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="AccountActivities" EntitySet="AccountActivities" />
+          </AssociationSet>
+          <EntitySet Name="YearAccounts" EntityType="DbAveragingTestModel.YearAccount" />
+          <AssociationSet Name="FK_YearAccounts_Accounts" Association="DbAveragingTestModel.FK_YearAccounts_Accounts">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="YearAccount" EntitySet="YearAccounts" />
+          </AssociationSet>
+          <EntitySet Name="DayIndexAccounts" EntityType="DbAveragingTestModel.DayIndexAccount" />
+        </EntityContainer>
+        <EntityType Name="YearAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="YearOf" Type="Int32" Nullable="false" />
+          <Property Name="Balance" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Debtor" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Creditor" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="AccountId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="DbAveragingTestModel.FK_YearAccounts_Accounts" FromRole="YearAccount" ToRole="Account" />
+        </EntityType>
+        <Association Name="FK_YearAccounts_Accounts">
+          <End Type="DbAveragingTestModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="DbAveragingTestModel.YearAccount" Role="YearAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="YearAccount">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DayIndexAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="GeneralNo" Type="Int32" Nullable="false" />
+          <Property Name="IndexNo" Type="Int32" Nullable="false" />
+          <Property Name="RegDate" Type="Int64" Nullable="false" />
+          <Property Name="DayBalance" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DayDebtor" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DayDeposit" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DayActivityCount" Type="Int32" Nullable="false" />
+          <Property Name="DayOpenedCount" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DbAveragingTestModelStoreContainer" CdmEntityContainer="DbAveragingTestEntities">
+          <EntitySetMapping Name="AccountActivities">
+            <EntityTypeMapping TypeName="DbAveragingTestModel.AccountActivity">
+              <MappingFragment StoreEntitySet="AccountActivities">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="YearOf" ColumnName="YearOf" />
+                <ScalarProperty Name="RegDate" ColumnName="RegDate" />
+                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="Numerator" ColumnName="Numerator" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="RegBranchId" ColumnName="RegBranchId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="DbAveragingTestModel.Account">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IndexNo" ColumnName="IndexNo" />
+                <ScalarProperty Name="GeneralNo" ColumnName="GeneralNo" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DbAveragingTestModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="YearAccounts">
+            <EntityTypeMapping TypeName="DbAveragingTestModel.YearAccount">
+              <MappingFragment StoreEntitySet="YearAccounts">
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Creditor" ColumnName="Creditor" />
+                <ScalarProperty Name="Debtor" ColumnName="Debtor" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="YearOf" ColumnName="YearOf" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DayIndexAccounts">
+            <EntityTypeMapping TypeName="DbAveragingTestModel.DayIndexAccount">
+              <MappingFragment StoreEntitySet="DayIndexAccount">
+                <ScalarProperty Name="DayOpenedCount" ColumnName="DayOpenedCount" />
+                <ScalarProperty Name="DayActivityCount" ColumnName="DayActivityCount" />
+                <ScalarProperty Name="DayDeposit" ColumnName="DayDeposit" />
+                <ScalarProperty Name="DayDebtor" ColumnName="DayDebtor" />
+                <ScalarProperty Name="DayBalance" ColumnName="DayBalance" />
+                <ScalarProperty Name="RegDate" ColumnName="RegDate" />
+                <ScalarProperty Name="IndexNo" ColumnName="IndexNo" />
+                <ScalarProperty Name="GeneralNo" ColumnName="GeneralNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
